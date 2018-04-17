@@ -8,13 +8,6 @@ import { LogInLink } from './LogIn';
 import { auth, db } from '../firebase';
 import * as routes from '../constants/routes';
 
-const SignUpPage = ({ history }) =>
-  <div>
-    <h1>SignUp</h1>
-    <SignUpForm history={history} />
-    <LogInLink />
-  </div>
-
 const INITIAL_STATE = {
   username: '',
   email: '',
@@ -26,6 +19,13 @@ const INITIAL_STATE = {
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
+
+const SignUpPage = ({ history }) => 
+  <div>
+    <h1>SignUp</h1>
+    <SignUpForm history={history} />
+    <LogInLink />
+  </div>
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -59,7 +59,11 @@ class SignUpForm extends Component {
         this.setState(byPropKey('error', error));
       });
 
-    event.preventDefault(); // TODO: Why is this at the end and not the beginning ???
+    event.preventDefault();
+  }
+
+  componentWillUnmount() {
+    // TODO ???
   }
 
   render() {
