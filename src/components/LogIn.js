@@ -93,6 +93,10 @@ export const LogInLink = () =>
     <Link to={routes.LOG_IN}>Log In</Link>
   </p>
 
+export const LogInHyperLink = () =>
+  <p>
+    <Link to={routes.LOG_IN}>Log In</Link>
+  </p>
 
 export default withRouter(LogInPage);
 
