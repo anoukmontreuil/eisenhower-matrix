@@ -2,20 +2,33 @@ import React, { Component } from 'react';
 
 import withAuthorization from './WithAuthorization';
 import { db } from '../firebase';
+import { base } from '../firebase/firebase';
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       users: null,
     };
   }
-  
+
+  componentWillMount() {
+    this.usersRef = base.syncState('users', {
+      context: this,
+      state: 'users'
+    });
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.usersRef);
+  }
+
   componentDidMount() {
-    db.onceGetUsers().then(snapshot =>
-      this.setState(() => ({ users: snapshot.val() }))
-    );
+    db.onceGetUsers().then(
+      snapshot => this.setState(
+        () => ({ users: snapshot.val() })
+      )
+    )
   }
 
   render() {
@@ -23,7 +36,7 @@ class HomePage extends Component {
 
     const UserList = ({ users }) =>
     <div>
-      <h2>Users' Display Names</h2>
+      <h2>Users List</h2>
       <h5>(Saved on Sign Up in Firebase Database)</h5>
   
       <ul>
